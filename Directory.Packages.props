@@ -1,0 +1,35 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+    <AspnetVersion>9.0.7</AspnetVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Core -->
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="System.Text.Json" Version="$(AspnetVersion)" />
+    <!-- Open Api -->
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
+	<!--Blazor-->
+	<PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspnetVersion)" />
+	<!-- Miscellaneous -->
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+	<PackageVersion Include="MudBlazor" Version="8.8.0" />
+	<PackageVersion Include="Ulid" Version="1.3.4" />
+    <!-- Light Framework -->
+    <PackageVersion Include="Lightsoft.Mediator" Version="0.0.0.1" />
+    <PackageVersion Include="Lightsoft.Result" Version="1.0.0.0" />
+    <PackageVersion Include="Lightsoft.Extensions" Version="0.0.0.13" />
+  </ItemGroup>
+</Project>
