@@ -14,9 +14,9 @@ public record UserDto
 
     public string PhoneNumber { get; set; } = null!;
 
-    public string? PasswordMode { get; set; }
-
     public IdentityStatus Status { get; set; }
+
+    public string? AuthProvider { get; set; }
 
     public bool IsDeleted { get; set; }
 

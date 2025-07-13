@@ -14,5 +14,5 @@ public record CreateUserRequest
 
     public string? PhoneNumber { get; set; }
 
-    public string? PasswordMode { get; set; }
+    public string? AuthProvider { get; set; }
 }

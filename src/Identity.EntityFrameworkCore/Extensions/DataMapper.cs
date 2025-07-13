@@ -14,7 +14,7 @@ public static class DataMapper
             LastName = s.LastName ?? "",
             Email = s.Email ?? "",
             PhoneNumber = s.PhoneNumber ?? "",
-            PasswordMode = s.PasswordMode,
+            AuthProvider = s.AuthProvider,
             Status = s.Status.Value,
             IsDeleted = s.Deleted != null,
         };
@@ -32,7 +32,7 @@ public static class DataMapper
             LastName = user.LastName ?? "",
             Email = user.Email ?? "",
             PhoneNumber = user.PhoneNumber ?? "",
-            PasswordMode = user.PasswordMode,
+            AuthProvider = user.AuthProvider,
             Status = user.Status.Value,
             IsDeleted = user.Deleted != null,
         };

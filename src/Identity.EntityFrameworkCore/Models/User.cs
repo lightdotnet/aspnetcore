@@ -11,9 +11,9 @@ public class User : IdentityUser, IEntity, IAuditableEntity, ISoftDelete
 
     public string? LastName { get; set; }
 
-    public string? PasswordMode { get; set; }
-
     public Status Status { get; set; } = new();
+
+    public string? AuthProvider { get; set; }
 
     public DateTimeOffset Created { get; set; }
 
@@ -42,10 +42,12 @@ public class User : IdentityUser, IEntity, IAuditableEntity, ISoftDelete
             Status.Update(status);
     }
 
-    public void ChangePasswordMode(string? mode)
+    public void ChangeAuthProvider(string? authProvider)
     {
-        // auth user via Active Directory instead local password
-        PasswordMode = mode;
+        // auth user via other provider instead local password
+        AuthProvider = string.IsNullOrEmpty(authProvider)
+            ? null
+            : authProvider;
     }
 
     public void Delete()
@@ -56,7 +58,7 @@ public class User : IdentityUser, IEntity, IAuditableEntity, ISoftDelete
         PhoneNumber = null;
         Email = null;
         PasswordHash = null;
-        PasswordMode = null;
+        AuthProvider = null;
         Status.Update(IdentityStatus.unactive);
     }
 }

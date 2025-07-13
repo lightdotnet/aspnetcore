@@ -96,7 +96,7 @@ public class UserService(UserManager<User> userManager) : IUserService
             PhoneNumber = newUser.PhoneNumber,
             FirstName = newUser.FirstName,
             LastName = newUser.LastName,
-            PasswordMode = newUser.PasswordMode,
+            AuthProvider = newUser.AuthProvider,
         };
 
         var identityResult = !string.IsNullOrEmpty(newUser.Password)
@@ -123,8 +123,8 @@ public class UserService(UserManager<User> userManager) : IUserService
         // update status
         user.UpdateStatus(updateUser.Status);
 
-        // auth via Domain
-        user.ChangePasswordMode(updateUser.PasswordMode);
+        // update auth provider
+        user.ChangeAuthProvider(updateUser.AuthProvider);
 
         var updatedResult = await userManager.UpdateAsync(user);
         if (!updatedResult.Succeeded)

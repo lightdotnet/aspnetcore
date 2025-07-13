@@ -1,9 +1,13 @@
 using Light.Identity;
+using Light.Identity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Identity.Controllers;
 
-public class UserController(IUserService userService) : VersionedApiController
+public class UserController(
+    IUserService userService,
+    UserManager<User> userManager) : VersionedApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
@@ -58,5 +62,20 @@ public class UserController(IUserService userService) : VersionedApiController
     {
         var res = await userService.GetUsersHasClaim(key, value);
         return Ok(res);
+    }
+
+    [HttpGet("test")]
+    public async Task<IActionResult> Test()
+    {
+        var user = await userManager.FindByNameAsync("super");
+
+        await userManager.AddLoginAsync(user!, new UserLoginInfo(
+            "AD",
+            "domain.local",
+            "DomainUserLogin"));
+
+        var logins = userManager.GetLoginsAsync(user!);
+
+        return Ok(logins);
     }
 }
