@@ -1,6 +1,4 @@
-﻿using Light.Identity.Options;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Light.Identity.EntityFrameworkCore;
@@ -99,7 +97,7 @@ public class JwtTokenMananger(
             .Where(x =>
                 x.UserId == user.Id
                 && x.RefreshToken == refreshToken
-                && x.RefreshTokenExpiresAt >= TimeNow
+                && x.RefreshTokenExpiresAt >= TimeNow.Date
                 && x.Revoked == false)
             .FirstOrDefaultAsync();
 
