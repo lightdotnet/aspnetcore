@@ -132,7 +132,7 @@ public class UserService(UserManager<User> userManager) : IUserService
 
         await UpdateRolesAsync(user, updateUser.Roles);
 
-        await UpdateClaimsAsync(user, updateUser.Claims.Select(c => new Claim(c.Type, c.Value)));
+        await UpdateClaimsAsync(user, updateUser.Claims.Distinct().Select(c => new Claim(c.Type, c.Value)));
 
         return Result.Success();
     }

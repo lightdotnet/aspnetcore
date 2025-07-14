@@ -21,4 +21,6 @@ public class JwtToken : BaseEntity<string>
     public string? DeviceId { get; set; }
 
     public string? DeviceName { get; set; }
+
+    public double TokenExpiresInSeconds => (TokenExpiresAt - DateTimeOffset.Now).TotalSeconds;
 }

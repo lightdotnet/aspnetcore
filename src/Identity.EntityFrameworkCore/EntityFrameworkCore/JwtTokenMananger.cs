@@ -8,14 +8,11 @@ namespace Light.Identity.EntityFrameworkCore;
 public class JwtTokenMananger(
     UserManager<User> userManager,
     RoleManager<Role> roleManager,
-    IOptions<JwtOptions> jwtOptions,
     IIdentityContext context)
 {
-    private readonly JwtOptions _jwt = jwtOptions.Value;
-
     public UserManager<User> UserManager => userManager;
 
-    public virtual DateTimeOffset TimeNow => DateTimeOffset.UtcNow;
+    public virtual DateTimeOffset TimeNow => DateTimeOffset.Now;
 
     public virtual async Task<IEnumerable<Claim>> GetUserClaimsAsync(User user)
     {
@@ -55,23 +52,19 @@ public class JwtTokenMananger(
         return claims;
     }
 
-    public virtual async Task<IResult<TokenDto>> GenerateTokenByAsync(User user, string? deviceId = null, string? deviceName = null)
+    public virtual async Task<IResult<TokenDto>> GenerateTokenByAsync(
+        User user,
+        string issuer, string secretKey,
+        DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
+        string? deviceId = null, string? deviceName = null)
     {
         var claims = await GetUserClaimsAsync(user);
 
-        var timeNow = TimeNow.DateTime;
-
-        var tokenExpiresInSeconds = _jwt.AccessTokenExpirationSeconds;
-        var tokenExpiresAt = timeNow.AddSeconds(tokenExpiresInSeconds);
-
         var jwtToken = JwtHelper.GenerateToken(
-            _jwt.Issuer,
+            issuer,
             claims,
             tokenExpiresAt,
-            _jwt.SecretKey);
-
-        var refreshToken = JwtHelper.GenerateRefreshToken();
-        var refreshTokenExpiresAt = timeNow.AddDays(_jwt.RefreshTokenExpirationDays);
+            secretKey);
 
         var newToken = new JwtToken
         {
@@ -80,17 +73,26 @@ public class JwtTokenMananger(
             DeviceName = deviceName,
             Token = jwtToken,
             TokenExpiresAt = tokenExpiresAt,
-            RefreshToken = refreshToken,
+            RefreshToken = JwtHelper.GenerateRefreshToken(),
             RefreshTokenExpiresAt = refreshTokenExpiresAt,
         };
 
         await context.JwtTokens.AddAsync(newToken);
         await context.SaveChangesAsync();
 
-        return Result<TokenDto>.Success(new TokenDto(newToken.Token, tokenExpiresInSeconds, newToken.RefreshToken));
+        return Result<TokenDto>.Success(
+            new TokenDto(
+                newToken.Token,
+                newToken.TokenExpiresInSeconds,
+                newToken.RefreshToken));
     }
 
-    public virtual async Task<IResult<TokenDto>> RefreshTokenAsync(User user, string refreshToken, string roleClaimType = ClaimTypes.Role, string userIdClaimType = ClaimTypes.UserId)
+    public virtual async Task<IResult<TokenDto>> RefreshTokenAsync(
+        User user,
+        string refreshToken,
+        string issuer, string secretKey,
+        DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
+        string roleClaimType = ClaimTypes.Role, string userIdClaimType = ClaimTypes.UserId)
     {
         // check refresh token is exist and not out of lifetime
         var userToken = await context.JwtTokens
@@ -108,24 +110,25 @@ public class JwtTokenMananger(
 
         var timeNow = TimeNow.DateTime;
 
-        var tokenExpiresInSeconds = _jwt.AccessTokenExpirationSeconds;
-        var tokenExpiresAt = timeNow.AddSeconds(tokenExpiresInSeconds);
-
         var jwtToken = JwtHelper.GenerateToken(
-            _jwt.Issuer,
+            issuer,
             claims,
             tokenExpiresAt,
-            _jwt.SecretKey);
+            secretKey);
 
         // save token data
         userToken.Token = jwtToken;
         userToken.TokenExpiresAt = tokenExpiresAt;
         userToken.RefreshToken = JwtHelper.GenerateRefreshToken();
-        userToken.RefreshTokenExpiresAt = timeNow.AddDays(_jwt.RefreshTokenExpirationDays);
+        userToken.RefreshTokenExpiresAt = refreshTokenExpiresAt;
 
         await context.SaveChangesAsync();
 
-        return Result<TokenDto>.Success(new TokenDto(userToken.Token, tokenExpiresInSeconds, userToken.RefreshToken));
+        return Result<TokenDto>.Success(
+            new TokenDto(
+                userToken.Token,
+                userToken.TokenExpiresInSeconds,
+                userToken.RefreshToken));
     }
 
     public async Task<IEnumerable<UserTokenDto>> GetUserTokensAsync(string userId)
