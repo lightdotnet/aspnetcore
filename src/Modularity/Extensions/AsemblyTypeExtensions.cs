@@ -17,6 +17,7 @@ internal static class AsemblyTypeExtensions
             .SelectMany(s => s.GetTypes())
             .Where(x =>
                 typeof(T).IsAssignableFrom(x)
-                && x.IsClass && !x.IsAbstract && !x.IsGenericType);
+                && x.IsClass && !x.IsAbstract && !x.IsGenericType)
+            .Distinct();
     }
 }
