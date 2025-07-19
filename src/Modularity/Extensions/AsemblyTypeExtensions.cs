@@ -14,6 +14,7 @@ internal static class AsemblyTypeExtensions
 
         // get all type inherit from T
         return assemblies
+            .Distinct()
             .SelectMany(s => s.GetTypes())
             .Where(x =>
                 typeof(T).IsAssignableFrom(x)
