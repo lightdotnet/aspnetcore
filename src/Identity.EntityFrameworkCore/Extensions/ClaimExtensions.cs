@@ -2,7 +2,7 @@
 
 namespace Light.Identity.Extensions;
 
-internal static class ClaimExtensions
+public static class ClaimExtensions
 {
     public static List<Claim> Add(this List<Claim> claims, string key, string? value)
     {
