@@ -3,9 +3,7 @@ using System.Security.Claims;
 
 namespace Light.Identity.EntityFrameworkCore;
 
-public class UserClaimService(
-    UserManager<User> userManager,
-    RoleManager<Role> roleManager)
+public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> roleManager)
 {
     public virtual async Task<IEnumerable<Claim>> GetUserClaimsAsync(User user)
     {

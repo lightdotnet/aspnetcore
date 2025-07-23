@@ -1,10 +1,16 @@
 ﻿using Light.Identity.EntityFrameworkCore;
+using Light.Identity.Options;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace WebApi.Identity.Controllers;
 
-public class TokenController(JwtTokenMananger tokenService) : VersionedApiController
+public class TokenController(
+    JwtTokenMananger tokenService,
+    IOptions<JwtOptions> options) : VersionedApiController
 {
+    private readonly JwtOptions _jwt = options.Value;
+    
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -18,7 +24,14 @@ public class TokenController(JwtTokenMananger tokenService) : VersionedApiContro
     {
         var user = await tokenService.UserManager.FindByNameAsync(userName);
 
-        return Ok(await tokenService.GenerateTokenByAsync(user!, "Web", "Chrome"));
+        return Ok(await tokenService.GenerateTokenByAsync(
+            user!,
+            _jwt.Issuer,
+            _jwt.SecretKey,
+            DateTime.Today.AddDays(1),
+            DateTime.Today.AddDays(7),
+            "Web",
+            "Chrome"));
     }
 
     [HttpPost("token/refresh")]
@@ -26,7 +39,13 @@ public class TokenController(JwtTokenMananger tokenService) : VersionedApiContro
     {
         var user = await tokenService.UserManager.FindByNameAsync(userName);
 
-        return Ok(await tokenService.RefreshTokenAsync(user!, refreshToken));
+        return Ok(await tokenService.RefreshTokenAsync(
+            user!,
+            refreshToken,
+            _jwt.Issuer,
+            _jwt.SecretKey,
+            DateTime.Today.AddDays(1),
+            DateTime.Today.AddDays(7)));
     }
 
     [HttpPost("token/revoke")]

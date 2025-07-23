@@ -13,7 +13,7 @@ public class JwtTokenMananger(
     public virtual DateTimeOffset TimeNow => DateTimeOffset.Now;
 
     public virtual Task<IEnumerable<Claim>> GetUserClaimsAsync(User user) =>
-        new UserClaimService(userManager, roleManager).GetUserClaimsAsync(user);
+        new UserClaimProvider(userManager, roleManager).GetUserClaimsAsync(user);
 
     public virtual async Task<IResult<TokenDto>> GenerateTokenByAsync(
         User user,

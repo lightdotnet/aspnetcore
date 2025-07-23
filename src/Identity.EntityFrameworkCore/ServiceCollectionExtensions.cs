@@ -1,5 +1,4 @@
 ﻿using Light.Identity.EntityFrameworkCore;
-using Light.Identity.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,12 +7,12 @@ namespace Light.Identity;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Config default identity
+    /// AddIdentityCore with DbContext Stores, Please AddAuthentication before this
     /// </summary>
-    public static IServiceCollection AddIdentity<TContext>(this IServiceCollection services)
+    public static IdentityBuilder AddIdentity<TContext>(this IServiceCollection services)
         where TContext : IdentityContext
     {
-        services
+        return services
             .AddIdentity<TContext>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = false;
@@ -32,40 +31,32 @@ public static class ServiceCollectionExtensions
                 // User settings
                 options.User.RequireUniqueEmail = false;
             });
-
-        return services;
     }
 
     /// <summary>
-    /// Config identity stores
+    /// AddIdentityCore with DbContext Stores, Please AddAuthentication before this
     /// </summary>
-    public static IServiceCollection AddIdentity<TContext>(this IServiceCollection services, Action<IdentityOptions> options)
+    public static IdentityBuilder AddIdentity<TContext>(this IServiceCollection services, Action<IdentityOptions> options)
         where TContext : IdentityContext
     {
-        services
-            .AddDefaultIdentity<User>(options)
+        var identityBuilder = services
+            .AddIdentityCore<User>(options)
             .AddRoles<Role>()
-            .AddEntityFrameworkStores<TContext>()
-            .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<TContext>();
 
         services.AddScoped<IIdentityContext>(provider => provider.GetRequiredService<TContext>());
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
 
-        return services;
+        return identityBuilder;
     }
 
     /// <summary>
     /// Register Jwt Token services
     /// </summary>
-    public static IServiceCollection AddJwtTokenProvider(this IServiceCollection services, Action<JwtOptions>? action = null)
+    public static IServiceCollection AddJwtTokenProvider(this IServiceCollection services)
     {
-        if (action != null)
-        {
-            services.Configure(action);
-        }
-
         services.AddScoped<JwtTokenMananger>();
 
         return services;

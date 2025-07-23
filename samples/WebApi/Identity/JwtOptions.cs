@@ -1,4 +1,4 @@
-﻿namespace Light.Identity.Options;
+﻿namespace WebApi.Identity;
 
 public class JwtOptions
 {
