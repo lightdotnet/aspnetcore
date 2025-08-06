@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Light.Identity.Models;
 
-public class Role : IdentityRole, IEntity, IAuditableEntity
+public class Role : IdentityRole, IEntity<string>, IAuditable
 {
     public Role() => Id = LightId.NewId();
 

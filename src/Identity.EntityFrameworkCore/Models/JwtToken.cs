@@ -2,7 +2,7 @@
 
 namespace Light.Identity.Models;
 
-public class JwtToken : BaseEntity<string>
+public class JwtToken : Entity<string>
 {
     public JwtToken() => Id = LightId.NewId();
 

@@ -1,8 +1,11 @@
 ﻿namespace Light.Domain.Entities.Interfaces;
 
-public interface ICreated
+public interface ICreationTime
 {
     DateTimeOffset Created { get; set; }
+}
 
+public interface ICreation : ICreationTime
+{
     string? CreatedBy { get; set; }
 }

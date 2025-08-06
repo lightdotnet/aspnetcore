@@ -35,7 +35,7 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
             .ForEach(e => e.State = EntityState.Unchanged);
 
         // auto set audit values for Auditable entities
-        changeTracker.Entries<IAuditableEntity>()
+        changeTracker.Entries<IAuditable>()
             .ToList()
             .ForEach(e =>
             {
