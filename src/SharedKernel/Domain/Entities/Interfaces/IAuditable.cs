@@ -1,4 +1,4 @@
 ﻿namespace Light.Domain.Entities.Interfaces;
 
-public interface IAuditable : ICreation, IModification
+public interface IAuditable : IHasAuditTime, IHasAuditUser
 { }
