@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Light.Identity.Models;
 
-public class User : IdentityUser, IEntity, IAuditableEntity, ISoftDelete
+public class User : IdentityUser, IEntity<string>, IAuditable, ISoftDelete
 {
     public User() => Id = LightId.NewId();
 

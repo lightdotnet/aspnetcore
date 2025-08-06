@@ -1,5 +1,4 @@
 using Light.Identity;
-using Light.Identity.Options;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Identity;
@@ -37,13 +36,7 @@ public static class Startup
 
         ArgumentNullException.ThrowIfNull(jwtSettings, nameof(JwtOptions));
 
-        services.AddJwtTokenProvider(opt =>
-        {
-            opt.Issuer = jwtSettings.Issuer;
-            opt.SecretKey = jwtSettings.SecretKey;
-            opt.AccessTokenExpirationSeconds = jwtSettings.AccessTokenExpirationSeconds;
-            opt.RefreshTokenExpirationDays = jwtSettings.RefreshTokenExpirationDays;
-        });
+        services.AddJwtTokenProvider();
 
         return services;
     }

@@ -1,5 +1,4 @@
 ﻿using Light.Identity.EntityFrameworkCore;
-using Light.Identity.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +9,7 @@ public class TokenController(
     IOptions<JwtOptions> options) : VersionedApiController
 {
     private readonly JwtOptions _jwt = options.Value;
-    
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
