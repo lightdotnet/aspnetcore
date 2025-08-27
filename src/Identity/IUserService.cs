@@ -5,7 +5,7 @@ public interface IUserService
     /// <summary>
     /// Get all users
     /// </summary>
-    Task<IEnumerable<UserDto>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<UserDto>> GetAllAsync();
 
     /// <summary>
     /// Get user by Id
