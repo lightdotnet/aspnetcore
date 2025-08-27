@@ -5,7 +5,7 @@ public interface IRoleService
     /// <summary>
     /// Get all roles
     /// </summary>
-    Task<IResult<IEnumerable<RoleDto>>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<RoleDto>> GetAllAsync();
 
     /// <summary>
     /// Get role by ID

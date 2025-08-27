@@ -7,14 +7,12 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
 {
     protected RoleManager<Role> RoleManager => roleManager;
 
-    public virtual async Task<IResult<IEnumerable<RoleDto>>> GetAllAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<RoleDto>> GetAllAsync()
     {
-        var roles = await roleManager.Roles
+        return await roleManager.Roles
             .AsNoTracking()
             .MapToDto()
-            .ToListAsync(cancellationToken);
-
-        return Result<IEnumerable<RoleDto>>.Success(roles);
+            .ToListAsync();
     }
 
     public virtual async Task<IResult<RoleDto>> GetByIdAsync(string id)

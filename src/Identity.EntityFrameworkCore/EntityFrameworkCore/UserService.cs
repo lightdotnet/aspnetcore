@@ -7,14 +7,14 @@ public class UserService(UserManager<User> userManager) : IUserService
 {
     protected UserManager<User> UserManager => userManager;
 
-    public virtual async Task<IEnumerable<UserDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<UserDto>> GetAllAsync()
     {
         return await userManager.Users
             .AsNoTracking()
             .OrderByDescending(x => x.Created)
             .ThenBy(x => x.UserName)
             .MapToDto()
-            .ToListAsync(cancellationToken);
+            .ToListAsync();
     }
 
     private async Task<UserDto> GetByAsync(User user)
