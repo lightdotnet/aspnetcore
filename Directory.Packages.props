@@ -19,14 +19,14 @@
     <PackageVersion Include="System.Text.Json" Version="$(AspnetVersion)" />
     <!-- Open Api -->
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
-	<!--Blazor-->
-	<PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspnetVersion)" />
-	<!-- Miscellaneous -->
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.4" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.4" />
+    <!--Blazor-->
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspnetVersion)" />
+    <!-- Miscellaneous -->
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-	<PackageVersion Include="MudBlazor" Version="8.8.0" />
-	<PackageVersion Include="Ulid" Version="1.4.1" />
+    <PackageVersion Include="MudBlazor" Version="8.8.0" />
+    <PackageVersion Include="Ulid" Version="1.4.1" />
     <!-- Light Framework -->
     <PackageVersion Include="Lightsoft.Mediator" Version="0.0.0.1" />
     <PackageVersion Include="Lightsoft.Result" Version="1.0.0.0" />

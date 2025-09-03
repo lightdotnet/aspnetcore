@@ -46,10 +46,31 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IIdentityContext>(provider => provider.GetRequiredService<TContext>());
 
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IRoleService, RoleService>();
-
         return identityBuilder;
+    }
+
+    /// <summary>
+    /// Add default UserManager service with Scoped lifetime
+    /// </summary>
+    /// <param name="lifetime"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddDefaultUserManager(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+    {
+        services.AddServiceLifetime(typeof(IUserService), typeof(UserService), lifetime);
+
+        return services;
+    }
+
+    /// <summary>
+    /// Add default RoleManager service with Scoped lifetime
+    /// </summary>
+    /// <param name="lifetime"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddDefaultRoleManager(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+    {
+        services.AddServiceLifetime(typeof(IRoleService), typeof(RoleService), lifetime);
+
+        return services;
     }
 
     /// <summary>
@@ -58,6 +79,26 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddJwtTokenProvider(this IServiceCollection services)
     {
         services.AddScoped<JwtTokenMananger>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServiceLifetime(this IServiceCollection services, Type interfaceType, Type implementationType, ServiceLifetime lifetime)
+    {
+        switch (lifetime)
+        {
+            case ServiceLifetime.Transient:
+                services.AddTransient(interfaceType, implementationType);
+                break;
+            case ServiceLifetime.Scoped:
+                services.AddScoped(interfaceType, implementationType);
+                break;
+            case ServiceLifetime.Singleton:
+                services.AddSingleton(interfaceType, implementationType);
+                break;
+            default:
+                throw new ArgumentException("Invalid lifeTime", nameof(lifetime));
+        }
 
         return services;
     }

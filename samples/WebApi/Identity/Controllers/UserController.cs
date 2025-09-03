@@ -10,9 +10,9 @@ public class UserController(
     UserManager<User> userManager) : VersionedApiController
 {
     [HttpGet]
-    public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAsync()
     {
-        var res = await userService.GetAllAsync(cancellationToken);
+        var res = await userService.GetAllAsync();
         return Ok(res);
     }
 

@@ -6,9 +6,9 @@ namespace WebApi.Identity.Controllers;
 public class RoleController(IRoleService _roleService) : VersionedApiController
 {
     [HttpGet]
-    public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAsync()
     {
-        var res = await _roleService.GetAllAsync(cancellationToken);
+        var res = await _roleService.GetAllAsync();
         return Ok(res);
     }
 
