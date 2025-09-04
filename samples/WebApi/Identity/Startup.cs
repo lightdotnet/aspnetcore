@@ -36,6 +36,9 @@ public static class Startup
 
         ArgumentNullException.ThrowIfNull(jwtSettings, nameof(JwtOptions));
 
+        services.AddDefaultUserManager();
+        services.AddDefaultRoleManager();
+
         services.AddJwtTokenProvider();
 
         return services;

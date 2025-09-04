@@ -24,13 +24,7 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
 
         var result = role.MapToDto();
 
-        var claims = await roleManager.GetClaimsAsync(role);
-
-        result.Claims = claims.Select(s => new ClaimDto
-        {
-            Type = s.Type,
-            Value = s.Value
-        });
+        result.Claims = await GetRoleClaimsAsync(role);
 
         return Result<RoleDto>.Success(result);
     }
@@ -44,15 +38,16 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
 
         var result = role.MapToDto();
 
-        var claims = await roleManager.GetClaimsAsync(role);
-
-        result.Claims = claims.Select(s => new ClaimDto
-        {
-            Type = s.Type,
-            Value = s.Value
-        });
+        result.Claims = await GetRoleClaimsAsync(role);
 
         return Result<RoleDto>.Success(result);
+    }
+
+    public virtual async Task<IEnumerable<ClaimDto>> GetRoleClaimsAsync(Role role)
+    {
+        var claims = await roleManager.GetClaimsAsync(role);
+
+        return claims.Select(s => new ClaimDto(s.Type, s.Value));
     }
 
     public virtual async Task<IResult<string>> CreateAsync(CreateRoleRequest request)
@@ -79,29 +74,36 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
 
         var result = await roleManager.UpdateAsync(role);
 
-        // get claims of role
+        if (result.Succeeded)
+        {
+            await UpdateClaimsAsync(role, request.Claims);
+        }
+
+        return result.ToResult();
+    }
+
+    public virtual async Task UpdateClaimsAsync(Role role, IEnumerable<ClaimDto> claims)
+    {
+        // get claims assigned to role
         var roleClaims = await roleManager.GetClaimsAsync(role);
 
-        var requestClaims = request.Claims.Select(s => new Claim(s.Type, s.Value));
+        var requestClaims = claims.Select(s => new Claim(s.Type, s.Value));
 
         var roleClaimsToRemove = roleClaims.Except(requestClaims);
 
-        // remove claims not in request list
+        // remove claims not in request list from role
         foreach (var claim in roleClaimsToRemove)
         {
-            // remove claim if not in request update list
             await roleManager.RemoveClaimAsync(role, claim);
         }
 
         var roleClaimsToAdd = requestClaims.Except(roleClaims);
 
-        // add new claims in request list
+        // assigned new claims in request list to role
         foreach (var claim in roleClaimsToAdd)
         {
             await roleManager.AddClaimAsync(role, claim);
         }
-
-        return result.ToResult();
     }
 
     public virtual async Task<IResult> DeleteAsync(string id)
@@ -115,7 +117,7 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
         var claimsByRole = await roleManager.GetClaimsAsync(role);
 
         if (claimsByRole.Any())
-            return Result.Error("Role has already setup claim.");
+            return Result.Error("Role has already setup claims.");
 
         var result = await roleManager.DeleteAsync(role);
 

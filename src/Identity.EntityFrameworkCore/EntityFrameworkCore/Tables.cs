@@ -18,9 +18,5 @@ public abstract class Tables
 
     /* Custom tables */
 
-    public const string UserAttributes = nameof(UserAttributes);
-
     public const string JwtTokens = nameof(JwtTokens);
-
-    public const string Tenants = nameof(Tenants);
 }

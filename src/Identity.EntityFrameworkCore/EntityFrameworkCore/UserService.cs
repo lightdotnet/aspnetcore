@@ -24,11 +24,8 @@ public class UserService(UserManager<User> userManager) : IUserService
         dto.Roles = await userManager.GetRolesAsync(user);
 
         var userClaims = await userManager.GetClaimsAsync(user);
-        dto.Claims = userClaims.Select(s => new ClaimDto
-        {
-            Type = s.Type,
-            Value = s.Value
-        });
+
+        dto.Claims = userClaims.Select(s => new ClaimDto(s.Type, s.Value));
 
         return dto;
     }
