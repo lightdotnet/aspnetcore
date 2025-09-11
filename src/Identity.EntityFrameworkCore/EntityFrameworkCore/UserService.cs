@@ -25,7 +25,7 @@ public class UserService(UserManager<User> userManager) : IUserService
 
         var userClaims = await userManager.GetClaimsAsync(user);
 
-        dto.Claims = userClaims.Select(s => new ClaimDto(s.Type, s.Value));
+        dto.Claims = userClaims.ToDictionary(s => s.Type, v => v.Value);
 
         return dto;
     }
@@ -129,7 +129,7 @@ public class UserService(UserManager<User> userManager) : IUserService
 
         await UpdateRolesAsync(user, updateUser.Roles);
 
-        await UpdateClaimsAsync(user, updateUser.Claims.Distinct().Select(c => new Claim(c.Type, c.Value)));
+        await UpdateClaimsAsync(user, updateUser.Claims.Distinct().Select(c => new Claim(c.Key, c.Value)));
 
         return Result.Success();
     }

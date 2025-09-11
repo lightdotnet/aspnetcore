@@ -2,7 +2,7 @@
 
 namespace Light.Identity;
 
-public record CreateUserRequest
+public class CreateUserRequest
 {
     public string? UserName { get; set; }
 

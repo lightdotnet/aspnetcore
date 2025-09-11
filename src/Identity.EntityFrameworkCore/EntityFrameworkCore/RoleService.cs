@@ -43,11 +43,11 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
         return Result<RoleDto>.Success(result);
     }
 
-    public virtual async Task<IEnumerable<ClaimDto>> GetRoleClaimsAsync(Role role)
+    public virtual async Task<Dictionary<string, string>> GetRoleClaimsAsync(Role role)
     {
         var claims = await roleManager.GetClaimsAsync(role);
 
-        return claims.Select(s => new ClaimDto(s.Type, s.Value));
+        return claims.ToDictionary(k => k.Type, v => v.Value);
     }
 
     public virtual async Task<IResult<string>> CreateAsync(CreateRoleRequest request)
@@ -82,12 +82,12 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
         return result.ToResult();
     }
 
-    public virtual async Task UpdateClaimsAsync(Role role, IEnumerable<ClaimDto> claims)
+    public virtual async Task UpdateClaimsAsync(Role role, Dictionary<string, string> claims)
     {
         // get claims assigned to role
         var roleClaims = await roleManager.GetClaimsAsync(role);
 
-        var requestClaims = claims.Select(s => new Claim(s.Type, s.Value));
+        var requestClaims = claims.Select(s => new Claim(s.Key, s.Value));
 
         var roleClaimsToRemove = roleClaims.Except(requestClaims);
 

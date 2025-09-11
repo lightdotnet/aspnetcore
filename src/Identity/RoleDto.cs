@@ -1,6 +1,6 @@
 ﻿namespace Light.Identity;
 
-public record RoleDto
+public class RoleDto
 {
     public string Id { get; set; } = null!;
 
@@ -8,5 +8,5 @@ public record RoleDto
 
     public string? Description { get; set; }
 
-    public IEnumerable<ClaimDto> Claims { get; set; } = [];
+    public Dictionary<string, string> Claims { get; set; } = [];
 }

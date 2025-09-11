@@ -3,7 +3,7 @@
 /// <summary>
 /// Default claim types
 /// </summary>
-public static class ClaimTypes
+public abstract class ClaimTypes
 {
     public const string UserId = "uid";
 
