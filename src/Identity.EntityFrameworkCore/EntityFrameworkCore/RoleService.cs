@@ -43,15 +43,15 @@ public class RoleService(RoleManager<Role> roleManager) : IRoleService
         return Result<RoleDto>.Success(result);
     }
 
-    public virtual async Task<IEnumerable<ClaimDto>> GetRoleClaimsAsync(Role role)
+    public virtual async Task<IList<ClaimDto>> GetRoleClaimsAsync(Role role)
     {
         var claims = await roleManager.GetClaimsAsync(role);
 
-        return claims.Select(s => new ClaimDto
-        {
-            Type = s.Type,
-            Value = s.Value
-        });
+        return [.. claims.Select(s => new ClaimDto
+            {
+                Type = s.Type,
+                Value = s.Value
+            })];
     }
 
     public virtual async Task<IResult<string>> CreateAsync(CreateRoleRequest request)

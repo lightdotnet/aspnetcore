@@ -25,11 +25,11 @@ public class UserService(UserManager<User> userManager) : IUserService
 
         var userClaims = await userManager.GetClaimsAsync(user);
 
-        dto.Claims = userClaims.Select(s => new ClaimDto
+        dto.Claims = [..userClaims.Select(s => new ClaimDto
         {
             Type = s.Type,
             Value = s.Value
-        });
+        })];
 
         return dto;
     }

@@ -20,7 +20,7 @@ public class UserDto
 
     public bool IsDeleted { get; set; }
 
-    public IEnumerable<string> Roles { get; set; } = [];
+    public IList<string> Roles { get; set; } = [];
 
-    public IEnumerable<ClaimDto> Claims { get; set; } = [];
+    public IList<ClaimDto> Claims { get; set; } = [];
 }
