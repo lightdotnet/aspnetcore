@@ -5,7 +5,7 @@ namespace Light.Identity.EntityFrameworkCore;
 
 public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> roleManager)
 {
-    public virtual async Task<IEnumerable<Claim>> GetUserClaimsAsync(User user)
+    public virtual async Task<IList<Claim>> GetUserClaimsAsync(User user)
     {
         var userClaims = await userManager.GetClaimsAsync(user);
         var userRoles = await userManager.GetRolesAsync(user);
@@ -38,7 +38,8 @@ public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> 
         .Union(userClaims)
         .Union(roleClaims)
         .Union(permissionClaims)
-        .Where(x => !string.IsNullOrEmpty(x.Value));
+        .Where(x => !string.IsNullOrEmpty(x.Value))
+        .ToList();
 
         return claims;
     }

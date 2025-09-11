@@ -21,11 +21,13 @@ public abstract class ClaimTypes
 
     public const string Role = "role";
 
+    public const string Expiration = "exp";
+
+    public const string TokenId = "tid";
+
+    public const string AccessToken = "token";
+
     public const string Permission = "permission";
 
     public const string ImageUrl = "image_url";
-
-    public const string Expiration = "exp";
-
-    public const string AccessToken = "token";
 }

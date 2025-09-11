@@ -24,7 +24,7 @@ public class JwtToken : Entity<string>
 
     public string? IpAddress { get; set; }
 
-    public string? MacAddress { get; set; }
+    public string? PhysicalAddress { get; set; }
 
     public long TokenExpiresInSeconds => (long)(TokenExpiresAt - DateTimeOffset.Now).TotalSeconds;
 }

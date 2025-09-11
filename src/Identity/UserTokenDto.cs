@@ -8,11 +8,5 @@ public class UserTokenDto
 
     public DateTimeOffset? RefreshTokenExpiresAt { get; set; }
 
-    public string? DeviceId { get; set; }
-
-    public string? DeviceName { get; set; }
-
-    public string? IpAddress { get; set; }
-
-    public string? MacAddress { get; set; }
+    public DeviceDto? Device { get; set; }
 }
