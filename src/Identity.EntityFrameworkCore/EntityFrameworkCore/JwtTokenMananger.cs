@@ -26,11 +26,11 @@ public class JwtTokenMananger(
         var newToken = new JwtToken
         {
             UserId = user.Id,
-            DeviceId = device?.Id,
-            DeviceName = device?.Name,
             TokenExpiresAt = tokenExpiresAt,
             RefreshToken = JwtHelper.GenerateRefreshToken(),
             RefreshTokenExpiresAt = refreshTokenExpiresAt,
+            DeviceId = device?.Id,
+            DeviceName = device?.Name,
             IpAddress = device?.IpAddress,
             PhysicalAddress = device?.PhysicalAddress,
         };
