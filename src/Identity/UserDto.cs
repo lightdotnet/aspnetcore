@@ -22,5 +22,5 @@ public class UserDto
 
     public IEnumerable<string> Roles { get; set; } = [];
 
-    public Dictionary<string, string> Claims { get; set; } = [];
+    public IEnumerable<ClaimDto> Claims { get; set; } = [];
 }

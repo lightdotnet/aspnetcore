@@ -8,5 +8,5 @@ public class RoleDto
 
     public string? Description { get; set; }
 
-    public Dictionary<string, string> Claims { get; set; } = [];
+    public IEnumerable<ClaimDto> Claims { get; set; } = [];
 }
