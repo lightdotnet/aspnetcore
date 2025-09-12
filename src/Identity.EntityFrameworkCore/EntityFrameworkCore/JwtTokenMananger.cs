@@ -21,7 +21,7 @@ public class JwtTokenMananger(
         string issuer, string secretKey,
         DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
         DeviceDto? device = null,
-        bool saveToken = false)
+        bool saveToken = true)
     {
         var newToken = new JwtToken
         {
@@ -65,7 +65,7 @@ public class JwtTokenMananger(
         DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
         string roleClaimType = ClaimTypes.Role, string userIdClaimType = ClaimTypes.UserId,
         DeviceDto? device = null,
-        bool saveToken = false)
+        bool saveToken = true)
     {
         // check refresh token is exist and not out of lifetime
         var userToken = await context.JwtTokens
@@ -90,7 +90,6 @@ public class JwtTokenMananger(
             tokenExpiresAt,
             secretKey);
 
-        // save token data
         if (saveToken is true)
         {
             userToken.Token = jwtToken;

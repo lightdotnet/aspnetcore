@@ -8,7 +8,7 @@ public class JwtToken : Entity<string>
 
     public required string UserId { get; set; }
 
-    public string Token { get; set; } = null!;
+    public string? Token { get; set; }
 
     public DateTimeOffset TokenExpiresAt { get; set; }
 
