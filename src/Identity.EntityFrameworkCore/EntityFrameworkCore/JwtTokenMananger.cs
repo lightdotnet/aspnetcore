@@ -16,7 +16,7 @@ public class JwtTokenMananger(
     public virtual Task<IList<Claim>> GetUserClaimsAsync(User user) =>
         new UserClaimProvider(userManager, roleManager).GetUserClaimsAsync(user);
 
-    public virtual async Task<JwtToken> GenerateTokenByAsync(
+    public virtual async Task<TokenDto> GenerateTokenByAsync(
         User user,
         string issuer, string secretKey,
         DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
@@ -37,6 +37,7 @@ public class JwtTokenMananger(
 
         var claims = await GetUserClaimsAsync(user);
 
+        // add TokenID
         claims.Add(new Claim(ClaimTypes.TokenId, newToken.Id));
 
         var jwtToken = JwtHelper.GenerateToken(
@@ -53,15 +54,17 @@ public class JwtTokenMananger(
         await context.JwtTokens.AddAsync(newToken);
         await context.SaveChangesAsync();
 
-        return newToken;
+        // *** note: must return jwtToken cause save token to DB is options
+        return new TokenDto(jwtToken, newToken.TokenExpiresInSeconds, newToken.RefreshToken);
     }
 
-    public virtual async Task<JwtToken> RefreshTokenAsync(
+    public virtual async Task<TokenDto> RefreshTokenAsync(
         User user,
         string refreshToken,
         string issuer, string secretKey,
         DateTime tokenExpiresAt, DateTime refreshTokenExpiresAt,
         string roleClaimType = ClaimTypes.Role, string userIdClaimType = ClaimTypes.UserId,
+        DeviceDto? device = null,
         bool saveToken = false)
     {
         // check refresh token is exist and not out of lifetime
@@ -75,6 +78,9 @@ public class JwtTokenMananger(
             ?? throw new UnauthorizedException("Refresh token invalid.");
 
         var claims = await GetUserClaimsAsync(user);
+
+        // add TokenID
+        claims.Add(new Claim(ClaimTypes.TokenId, userToken.Id));
 
         var timeNow = TimeNow.DateTime;
 
@@ -94,9 +100,15 @@ public class JwtTokenMananger(
         userToken.RefreshToken = JwtHelper.GenerateRefreshToken();
         userToken.RefreshTokenExpiresAt = refreshTokenExpiresAt;
 
+        userToken.DeviceId = device?.Id;
+        userToken.DeviceName = device?.Name;
+        userToken.IpAddress = device?.IpAddress;
+        userToken.PhysicalAddress = device?.PhysicalAddress;
+
         await context.SaveChangesAsync();
 
-        return userToken;
+        // *** note: must return jwtToken cause save token to DB is options
+        return new TokenDto(jwtToken, userToken.TokenExpiresInSeconds, userToken.RefreshToken);
     }
 
     public async Task<IEnumerable<UserTokenDto>> GetUserTokensAsync(string userId)
