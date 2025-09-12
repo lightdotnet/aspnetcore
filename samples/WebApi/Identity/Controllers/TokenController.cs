@@ -28,9 +28,7 @@ public class TokenController(
             _jwt.Issuer,
             _jwt.SecretKey,
             DateTime.Today.AddDays(1),
-            DateTime.Today.AddDays(7),
-            "Web",
-            "Chrome"));
+            DateTime.Today.AddDays(7)));
     }
 
     [HttpPost("token/refresh")]
