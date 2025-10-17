@@ -143,7 +143,7 @@ public class JwtTokenMananger(
     public Task<bool> IsTokenValidAsync(string accessToken)
     {
         return context.JwtTokens
-            .Where(x => 
+            .Where(x =>
                 x.Token == accessToken
                 && x.Revoked == false
                 && x.TokenExpiresAt > TimeNow)
