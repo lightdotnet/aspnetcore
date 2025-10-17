@@ -1,4 +1,5 @@
 using Light.Identity;
+using Light.Identity.EntityFrameworkCore;
 using Light.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,8 @@ namespace WebApi.Identity.Controllers;
 
 public class UserController(
     IUserService userService,
-    UserManager<User> userManager) : VersionedApiController
+    UserManager<User> userManager,
+    AppIdentityDbContext context) : VersionedApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetAsync()
@@ -60,7 +62,7 @@ public class UserController(
     [HttpGet("by_claim/{key}/{value}")]
     public async Task<IActionResult> GetByClaimAsync(string key, string value)
     {
-        var res = await userService.GetUsersHasClaim(key, value);
+        var res = await userService.GetUsersHasClaimAsync(key, value);
         return Ok(res);
     }
 
@@ -77,5 +79,12 @@ public class UserController(
         var logins = userManager.GetLoginsAsync(user!);
 
         return Ok(logins);
+    }
+
+    [HttpGet("{id}/has_claim")]
+    public async Task<IActionResult> HasClaimAsync([FromRoute] string id, string type, string value)
+    {
+        var res = await context.CheckUserHasClaimAsync(id, type, value);
+        return Ok(res);
     }
 }

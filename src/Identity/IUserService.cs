@@ -40,5 +40,5 @@ public interface IUserService
     /// <summary>
     /// Get users who have the claim
     /// </summary>
-    Task<IEnumerable<UserDto>> GetUsersHasClaim(string claimType, string claimValue);
+    Task<IEnumerable<UserDto>> GetUsersHasClaimAsync(string claimType, string claimValue);
 }

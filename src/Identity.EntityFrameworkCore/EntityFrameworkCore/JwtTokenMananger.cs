@@ -140,6 +140,16 @@ public class JwtTokenMananger(
         return list;
     }
 
+    public Task<bool> IsTokenValidAsync(string accessToken)
+    {
+        return context.JwtTokens
+            .Where(x => 
+                x.Token == accessToken
+                && x.Revoked == false
+                && x.TokenExpiresAt > TimeNow)
+            .AnyAsync();
+    }
+
     public Task RevokedAsync(string userId, string tokenId)
     {
         return context.JwtTokens

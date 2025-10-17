@@ -1,6 +1,7 @@
 ﻿using Light.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 namespace WebApi.Identity.Controllers;
 
@@ -56,6 +57,14 @@ public class TokenController(
     public async Task<IActionResult> GetListAsync(string userId)
     {
         var res = await tokenService.GetUserTokensAsync(userId);
+        return Ok(res);
+    }
+
+    [HttpGet("check_token")]
+    public async Task<IActionResult> CheckToken()
+    {
+        var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+        var res = await tokenService.IsTokenValidAsync(accessToken);
         return Ok(res);
     }
 }

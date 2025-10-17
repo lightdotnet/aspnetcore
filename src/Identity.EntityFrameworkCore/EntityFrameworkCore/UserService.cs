@@ -168,7 +168,7 @@ public class UserService(UserManager<User> userManager) : IUserService
         return identityResult.ToResult();
     }
 
-    public virtual async Task<IEnumerable<UserDto>> GetUsersHasClaim(string claimType, string claimValue)
+    public virtual async Task<IEnumerable<UserDto>> GetUsersHasClaimAsync(string claimType, string claimValue)
     {
         var users = await userManager.GetUsersForClaimAsync(new Claim(claimType, claimValue));
 
