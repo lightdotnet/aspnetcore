@@ -7,23 +7,23 @@ public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> 
 {
     public virtual async Task<IList<Claim>> GetUserClaimsAsync(User user)
     {
-        var userClaims = await userManager.GetClaimsAsync(user);
+        //var userClaims = await userManager.GetClaimsAsync(user);
         var userRoles = await userManager.GetRolesAsync(user);
 
-        var roleClaims = new List<Claim>();
+        //var roleClaims = new List<Claim>();
         var permissionClaims = new List<Claim>();
 
         foreach (var userRole in userRoles)
         {
-            roleClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            //roleClaims.Add(new Claim(ClaimTypes.Role, userRole));
 
             var role = await roleManager.FindByNameAsync(userRole);
             if (role is null)
                 continue;
 
-            var allClaimsForThisRoles = await roleManager.GetClaimsAsync(role);
+            var roleClaims = await roleManager.GetClaimsAsync(role);
 
-            permissionClaims.AddRange(allClaimsForThisRoles);
+            permissionClaims.AddRange(roleClaims);
         }
 
         var claims = new List<Claim>
@@ -35,8 +35,8 @@ public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> 
             //{ ClaimTypes.PhoneNumber, user.PhoneNumber },
             //{ ClaimTypes.Email, user.Email },
         }
-        .Union(userClaims)
-        .Union(roleClaims)
+        //.Union(userClaims)
+        //.Union(roleClaims)
         .Union(permissionClaims)
         .Where(x => !string.IsNullOrEmpty(x.Value))
         .ToList();
