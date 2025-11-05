@@ -29,4 +29,15 @@ public static class QueryExtensions
 
         return hasRoleClaim;
     }
+
+    public static IQueryable<RoleClaim> GetUserRoleClaimsAsync(this IdentityContext context, string userId)
+    {
+        return
+            from user_roles in context.UserRoles.Where(x => x.UserId == userId)
+            join roles in context.Roles
+                on user_roles.RoleId equals roles.Id
+            join role_Claims in context.RoleClaims
+                on roles.Id equals role_Claims.RoleId
+            select role_Claims;
+    }
 }

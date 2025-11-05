@@ -30,10 +30,10 @@ public class UserClaimProvider(UserManager<User> userManager, RoleManager<Role> 
         {
             { ClaimTypes.UserId, user.Id },
             { ClaimTypes.UserName, user.UserName },
-            { ClaimTypes.FirstName, user.FirstName },
-            { ClaimTypes.LastName, user.LastName },
-            { ClaimTypes.PhoneNumber, user.PhoneNumber },
-            { ClaimTypes.Email, user.Email },
+            //{ ClaimTypes.FirstName, user.FirstName },
+            //{ ClaimTypes.LastName, user.LastName },
+            //{ ClaimTypes.PhoneNumber, user.PhoneNumber },
+            //{ ClaimTypes.Email, user.Email },
         }
         .Union(userClaims)
         .Union(roleClaims)
