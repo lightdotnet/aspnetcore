@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Light.AspNetCore.Swagger;
@@ -20,14 +19,9 @@ public class SwaggerDefaultValues : IOperationFilter
         foreach (var parameter in operation.Parameters)
         {
             var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
+
             parameter.Description ??= description.ModelMetadata?.Description;
-
-            if (parameter.Schema.Default == null && description.DefaultValue != null)
-            {
-                parameter.Schema.Default = new OpenApiString(description.DefaultValue.ToString());
-            }
-
-            parameter.Required |= description.IsRequired;
         }
     }
 }
+

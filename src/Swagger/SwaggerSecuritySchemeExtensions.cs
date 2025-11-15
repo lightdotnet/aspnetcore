@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Light.AspNetCore.Swagger;
@@ -17,19 +17,20 @@ internal static class SwaggerSecuritySchemeExtensions
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
             Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
-
-            Reference = new OpenApiReference
-            {
-                Id = "Bearer",
-                Type = ReferenceType.SecurityScheme
-            }
         };
 
-        swaggerGenOptions.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+        swaggerGenOptions.AddSecurityDefinition("jwt", jwtSecurityScheme);
 
-        swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+        swaggerGenOptions.AddSecurityRequirement(r => new OpenApiSecurityRequirement
         {
-            { jwtSecurityScheme, Array.Empty<string>() }
+            {
+                new OpenApiSecuritySchemeReference(
+                    referenceId: "Bearer",
+                    hostDocument: null,
+                    externalResource: null
+                ),
+                new List<string>()
+            }
         });
 
         return swaggerGenOptions;
@@ -45,19 +46,20 @@ internal static class SwaggerSecuritySchemeExtensions
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
             Description = "Put your basic Authentication on textbox below!",
-
-            Reference = new OpenApiReference
-            {
-                Id = "basic",
-                Type = ReferenceType.SecurityScheme
-            }
         };
 
-        swaggerGenOptions.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+        swaggerGenOptions.AddSecurityDefinition("basic", jwtSecurityScheme);
 
-        swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+        swaggerGenOptions.AddSecurityRequirement(r => new OpenApiSecurityRequirement
         {
-            { jwtSecurityScheme, Array.Empty<string>() }
+            {
+                new OpenApiSecuritySchemeReference(
+                    referenceId: "basic",
+                    hostDocument: null,
+                    externalResource: null
+                ),
+                new List<string>()
+            }
         });
 
         return swaggerGenOptions;
