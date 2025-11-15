@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net9.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
 	<RootNamespace>Light.AspNetCore.OpenApi</RootNamespace>
 	<AssemblyName>Lightsoft.AspNetCore.OpenApi</AssemblyName>
 	<Title>Lightsoft.AspNetCore.OpenApi</Title>
@@ -23,9 +20,9 @@
 
   <ItemGroup>
 	<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
-	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.*" />
-	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.*" />
-	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.*" />
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.0.1" />
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.0.1" />
   </ItemGroup>
 
 </Project>

@@ -30,6 +30,8 @@ try
 
     var executingAssembly = Assembly.GetExecutingAssembly();
 
+    builder.Services.AddLogger();
+
     var settings = builder.Configuration.GetSection("Caching").Get<CacheOptions>();
     builder.Services.AddCache(opt =>
     {

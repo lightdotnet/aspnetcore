@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Light.Extensions.Caching
+﻿namespace Light.Extensions.Caching
 {
     public interface IAsyncCacheService
     {

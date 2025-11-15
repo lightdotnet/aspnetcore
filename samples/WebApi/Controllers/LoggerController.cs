@@ -17,8 +17,6 @@ namespace WebApi.Controllers
 
             logger.LogError("Write error log {id}", id);
 
-            logger.LogCritical("Write critical log {id}", id);
-
             return Ok();
         }
     }

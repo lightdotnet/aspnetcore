@@ -1,6 +1,5 @@
 using Light.Extensions.Caching;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +29,7 @@ namespace WebApi.Controllers
         {
             var res = await cacheService.GetAsync<Dictionary<string, decimal>>(TEST_KEY);
             var result = res["W0001_10000"];
-            
+
             return Ok(result);
         }
     }

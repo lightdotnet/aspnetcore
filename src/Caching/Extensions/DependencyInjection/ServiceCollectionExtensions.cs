@@ -2,7 +2,6 @@
 using Light.Extensions.Caching;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
-using System;
 
 namespace Light.Extensions.DependencyInjection
 {

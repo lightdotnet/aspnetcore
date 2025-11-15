@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Light.Extensions.Caching
+﻿namespace Light.Extensions.Caching
 {
     public interface ICacheService : IAsyncCacheService
     {
