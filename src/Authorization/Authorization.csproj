@@ -2,13 +2,13 @@
 
   <PropertyGroup>
 	<RootNamespace>Light.Authorization</RootNamespace>
-	<AssemblyName>Lightsoft.Authorization</AssemblyName>
-	<Title>Lightsoft.Authorization</Title>
+	<AssemblyName>Lightsoft.AspNetCore.Authorization</AssemblyName>
+	<Title>Lightsoft.AspNetCore.Authorization</Title>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<Authors>minhvu</Authors>
 	<Description>Authorization with permissions module package.</Description>
 	<Summary>Authorization with permissions module package.</Summary>
-	<Version>10.0.0-beta2</Version>
+	<Version>10.0.0-beta1</Version>
 	<PackageTags>lightframework;dotnet;aspnetcore</PackageTags>
 	<PackageIcon>icon.png</PackageIcon>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
