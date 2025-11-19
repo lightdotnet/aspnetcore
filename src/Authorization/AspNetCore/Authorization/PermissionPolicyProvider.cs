@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace Light.Authorization;
+namespace Light.AspNetCore.Authorization;
 
 public class PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
     : IAuthorizationPolicyProvider

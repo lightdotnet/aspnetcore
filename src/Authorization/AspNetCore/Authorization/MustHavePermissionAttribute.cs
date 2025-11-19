@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Light.Authorization;
+namespace Light.AspNetCore.Authorization;
 
 public class MustHavePermissionAttribute : AuthorizeAttribute
 {
