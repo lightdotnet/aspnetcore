@@ -8,10 +8,12 @@ internal static class SwaggerSecuritySchemeExtensions
 {
     internal static SwaggerGenOptions AddJwtSecurityScheme(this SwaggerGenOptions swaggerGenOptions)
     {
+        var scheme = "bearer";
+
         // Include 'SecurityScheme' to use JWT Authentication
         var jwtSecurityScheme = new OpenApiSecurityScheme
         {
-            Scheme = "bearer",
+            Scheme = scheme,
             BearerFormat = "JWT",
             Name = "JWT Authentication",
             In = ParameterLocation.Header,
@@ -19,49 +21,40 @@ internal static class SwaggerSecuritySchemeExtensions
             Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
         };
 
-        swaggerGenOptions.AddSecurityDefinition("jwt", jwtSecurityScheme);
-
-        swaggerGenOptions.AddSecurityRequirement(r => new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecuritySchemeReference(
-                    referenceId: "Bearer",
-                    hostDocument: null,
-                    externalResource: null
-                ),
-                new List<string>()
-            }
-        });
+        AddSecurity(swaggerGenOptions, scheme, jwtSecurityScheme);
 
         return swaggerGenOptions;
     }
 
     internal static SwaggerGenOptions AddBasicSecurityScheme(this SwaggerGenOptions swaggerGenOptions)
     {
+        var scheme = "basic";
+
         // Include 'SecurityScheme' to use Basic Authentication
         var jwtSecurityScheme = new OpenApiSecurityScheme
         {
-            Scheme = "basic",
+            Scheme = scheme,
             Name = "Basic Authentication",
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
             Description = "Put your basic Authentication on textbox below!",
         };
 
-        swaggerGenOptions.AddSecurityDefinition("basic", jwtSecurityScheme);
+        AddSecurity(swaggerGenOptions, scheme, jwtSecurityScheme);
 
-        swaggerGenOptions.AddSecurityRequirement(r => new OpenApiSecurityRequirement
+        return swaggerGenOptions;
+    }
+
+    private static void AddSecurity(SwaggerGenOptions swaggerGenOptions, string name, OpenApiSecurityScheme openApiSecurityScheme)
+    {
+        swaggerGenOptions.AddSecurityDefinition(name, openApiSecurityScheme);
+
+        swaggerGenOptions.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
         {
             {
-                new OpenApiSecuritySchemeReference(
-                    referenceId: "basic",
-                    hostDocument: null,
-                    externalResource: null
-                ),
+                new OpenApiSecuritySchemeReference(name, doc),
                 new List<string>()
             }
         });
-
-        return swaggerGenOptions;
     }
 }
