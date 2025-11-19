@@ -8,7 +8,7 @@
 	<Authors>minhvu</Authors>
 	<Description>Authorization with permissions module package.</Description>
 	<Summary>Authorization with permissions module package.</Summary>
-	<Version>9.0.10.1-beta1</Version>
+	<Version>10.0.0-beta1</Version>
 	<PackageTags>lightframework;dotnet;aspnetcore</PackageTags>
 	<PackageIcon>icon.png</PackageIcon>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="$(AspnetVersion)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(AspnetVersion" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="$(AspnetVersion" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(AspnetVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="$(AspnetVersion)" />
   </ItemGroup>
 
 </Project>

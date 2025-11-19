@@ -21,12 +21,14 @@ jobs:
         dotnet restore src/WebHost/WebHost.csproj
         dotnet restore src/Modularity/Modularity.csproj
         dotnet restore src/Swagger/Swagger.csproj
+        dotnet restore src/Authorization/Authorization.csproj
 
     - name: Build
       run: |
         dotnet build src/WebHost/WebHost.csproj --configuration Release --no-restore
         dotnet build src/Modularity/Modularity.csproj --configuration Release --no-restore
         dotnet build src/Swagger/Swagger.csproj --configuration Release --no-restore
+        dotnet build src/Authorization/Authorization.csproj --configuration Release --no-restore
 
     - name: Publish to Nuget.org
       run: |
@@ -35,5 +37,6 @@ jobs:
         dotnet pack --no-build src/WebHost/WebHost.csproj --configuration Release --output nuget
         dotnet pack --no-build src/Modularity/Modularity.csproj --configuration Release --output nuget
         dotnet pack --no-build src/Swagger/Swagger.csproj --configuration Release --output nuget
+        dotnet pack --no-build src/Authorization/Authorization.csproj --configuration Release --output nuget
 
         dotnet nuget push nuget/*.nupkg -k '${{ secrets.NUGET_API_KEY }}' --skip-duplicate -s https://api.nuget.org/v3/index.json

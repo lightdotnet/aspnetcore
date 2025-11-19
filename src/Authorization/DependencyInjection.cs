@@ -5,24 +5,27 @@ namespace Light.Authorization;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDefaultPermissionManager(this IServiceCollection services) =>
-        services.AddSingleton<PermissionManager>();
+    /// <summary>
+    /// Use default PermissionPolicyProvider
+    /// </summary>
+    public static IServiceCollection AddPermissionPolicyProvider(this IServiceCollection services) =>
+        services.AddPermissionPolicyProvider<PermissionPolicyProvider>();
 
-    public static IServiceCollection AddPermissionManager<T>(this IServiceCollection services)
-        where T : PermissionManager
+    /// <summary>
+    /// Use custom PermissionPolicyProvider
+    /// </summary>
+    public static IServiceCollection AddPermissionPolicyProvider<T>(this IServiceCollection services)
+        where T : PermissionPolicyProvider
     {
-        return services.AddSingleton<PermissionManager, T>();
+        services.AddSingleton<IAuthorizationPolicyProvider, T>();
+        return services;
     }
 
-    public static IServiceCollection AddPermissionPolicy(this IServiceCollection services) =>
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-
-    public static IServiceCollection AddPermissionAuthorization<T>(this IServiceCollection services)
-        where T : class, IAuthorizationHandler
+    public static IServiceCollection AddPermissionAuthorizationHandler<T>(this IServiceCollection services)
+        where T : PermissionAuthorizationHandler
     {
         services.AddScoped<IAuthorizationHandler, T>();
 
         return services;
     }
-        
 }
