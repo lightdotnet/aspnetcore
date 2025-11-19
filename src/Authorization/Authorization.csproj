@@ -2,8 +2,8 @@
 
   <PropertyGroup>
 	<RootNamespace>Light.Authorization</RootNamespace>
-	<AssemblyName>Lightsoft.Authorization.Permissions</AssemblyName>
-	<Title>Lightsoft.Authorization.Permissions</Title>
+	<AssemblyName>Lightsoft.Authorization</AssemblyName>
+	<Title>Lightsoft.Authorization</Title>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<Authors>minhvu</Authors>
 	<Description>Authorization with permissions module package.</Description>
