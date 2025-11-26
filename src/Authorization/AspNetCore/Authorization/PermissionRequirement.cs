@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Light.Authorization;
+namespace Light.AspNetCore.Authorization;
 
 public record PermissionRequirement(string Permission) : IAuthorizationRequirement;
