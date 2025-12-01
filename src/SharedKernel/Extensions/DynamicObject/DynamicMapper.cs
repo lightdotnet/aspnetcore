@@ -49,11 +49,15 @@ public class DynamicMapper
         if (type == typeof(DateTime) || type == typeof(DateTime?))
             return DateTime.Parse(value);
 
+        if (type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
+            return DateTimeOffset.Parse(value);
+
         if (type == typeof(double))
             return double.Parse(value);
 
         if (type == typeof(decimal))
             return decimal.Parse(value);
+
         // Add more as needed
 
         return Convert.ChangeType(value, type);
