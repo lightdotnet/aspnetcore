@@ -43,6 +43,9 @@ public class DynamicColumnExporter
         if (type == typeof(DateTime) || type == typeof(DateTime?))
             return "datetime";
 
+        if (type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
+            return "datetime_offset";
+
         if (type == typeof(decimal))
             return "decimal";
 
